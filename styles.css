@@ -1,3 +1,20 @@
-body {
+  body { 
     background-color: rgb(128, 165, 142);
-}
+    font-family: sans-serif; 
+    text-align: center; 
+    padding-top: 20px; }
+
+  #startCameraButton { 
+    padding: 10px 20px; 
+    font-size: 16px; 
+    cursor: pointer; }
+  #videoElement {
+            width: 500px;
+            height: 375px;
+            background-color: #eee;
+            border: 1px solid black;
+            margin-top: 20px;
+            display: none; /* Hidden until camera starts */
+        }
+        #statusMessage { color: blue; margin-top: 10px; }
+        .error { color: red; }
