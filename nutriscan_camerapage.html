@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; text-align: center; padding-top: 20px; }
+        #startCameraButton { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+        #videoElement {
+            width: 500px;
+            height: 375px;
+            background-color: #eee;
+            border: 1px solid black;
+            margin-top: 20px;
+            display: none; /* Hidden until camera starts */
+        }
+        #statusMessage { color: blue; margin-top: 10px; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+
+    <h1>NutriScan Camera Access</h1>
+    <p id="statusMessage">You have chosen the "Use Camera" option. Click the button to request camera permission.</p>
+    
+    <!-- Button triggers the permission prompt -->
+    <button id="startCameraButton">Start Camera</button>
+
+    <!-- The video element where the stream will appear -->
+    <video id="videoElement" autoplay playsinline></video>
+
+    <!-- JavaScript code using 'const' -->
+    <script>
+        // Use const to define constant references to DOM elements
+        const startButton = document.querySelector('#startCameraButton');
+        const video = document.querySelector('#videoElement');
+        const statusMessage = document.querySelector('#statusMessage');
+
+        // Function defined using modern syntax
+        const startCamera = () => {
+            statusMessage.textContent = "Requesting camera access... Look for the pop-up.";
+            startButton.disabled = true; 
+
+            // This triggers the browser permission dialog
+            navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+                .then((stream) => {
+                    // Success: User allowed access
+                    statusMessage.textContent = "Access granted! Camera active.";
+                    statusMessage.classList.remove('error');
+                    
+                    video.srcObject = stream;
+                    video.style.display = 'block'; // Show the video element
+                    startButton.style.display = 'none'; // Hide the start button
+                })
+                .catch((error) => {
+                    // Error: User clicked "Block" or an issue occurred
+                    console.error("Error accessing media devices:", error);
+                    statusMessage.classList.add('error');
+
+                    if (error.name === 'NotAllowedError') {
+                        statusMessage.textContent = "Access denied! Refresh the page to try again.";
+                    } else if (error.name === 'NotFoundError') {
+                        statusMessage.textContent = "No camera found on this device.";
+                    } else {
+                        statusMessage.textContent = "An error occurred: " + error.name;
+                    }
+                    
+                    startButton.disabled = false;
+                });
+        };
+
+        // Attach the startCamera function to the button's click event
+        startButton.addEventListener('click', startCamera);
+
+    </script>
+
+</body>
+</html>
