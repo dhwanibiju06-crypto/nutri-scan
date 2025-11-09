@@ -9,12 +9,17 @@
     font-size: 16px; 
     cursor: pointer; }
   #videoElement {
-            width: 500px;
-            height: 375px;
+            width: 800px;
+            height: 550px;
             background-color: #eee;
             border: 1px solid black;
             margin-top: 20px;
             display: none; /* Hidden until camera starts */
-        }
-        #statusMessage { color: blue; margin-top: 10px; }
-        .error { color: red; }
+            margin: 0 auto;}
+  #cameraicon {
+    display: none;
+    margin: 0 auto;
+  }
+
+#statusMessage { color: blue; margin-top: 10px; }
+.error { color: red; }

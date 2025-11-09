@@ -14,10 +14,12 @@
     <button id="startCameraButton">Start Camera</button>
 
     <!-- The video element where the stream will appear -->
-    <video id="videoElement" autoplay playsinline></video>
-
+     <p>
+        <video id="videoElement" autoplay playsinline></video>
+     </p>
+    
     <!-- Takes pic -->
-    <img src="images/cameraicon.svg" alt="cameraLogo">
+    <img id="cameraicon" src="images/cameraicon.svg" alt="cameraLogo">
 
     <!-- JavaScript code using 'const' -->
     <script>
@@ -25,6 +27,7 @@
         const startButton = document.querySelector('#startCameraButton');
         const video = document.querySelector('#videoElement');
         const statusMessage = document.querySelector('#statusMessage');
+        const cameraicon = document.querySelector('#cameraicon')
 
         // Function defined using modern syntax
         const startCamera = () => {
@@ -40,6 +43,7 @@
                     
                     video.srcObject = stream;
                     video.style.display = 'block'; // Show the video element
+                    cameraicon.style.display = 'block';
                     startButton.style.display = 'none'; // Hide the start button
                 })
                 .catch((error) => {
