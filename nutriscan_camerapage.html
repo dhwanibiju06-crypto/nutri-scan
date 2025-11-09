@@ -14,10 +14,9 @@
     <button id="startCameraButton">Start Camera</button>
 
     <!-- The video element where the stream will appear -->
-     <p>
-        <video id="videoElement" autoplay playsinline></video>
-     </p>
-    
+    <video id="videoElement" autoplay playsinline></video>
+    <canvas id="canvas" width = "800" height = "550"></canvas>
+
     <!-- Takes pic -->
     <img id="cameraicon" src="images/cameraicon.svg" alt="cameraLogo">
 
@@ -27,7 +26,9 @@
         const startButton = document.querySelector('#startCameraButton');
         const video = document.querySelector('#videoElement');
         const statusMessage = document.querySelector('#statusMessage');
-        const cameraicon = document.querySelector('#cameraicon')
+        const cameraicon = document.querySelector('#cameraicon');
+        const canvas = document.querySelector('#canvas');
+        const context = canvas.getContext('2d');
 
         // Function defined using modern syntax
         const startCamera = () => {
@@ -65,6 +66,14 @@
 
         // Attach the startCamera function to the button's click event
         startButton.addEventListener('click', startCamera);
+
+        const takePic= () => {
+            canvas.style.display='block';
+            context.drawImage(video, 0, 0, canvas.width, canvas.height); // Capture frame when button is clicked
+            //video.style.display = 'none';
+            statusMessage.textContent = "Picture captured!";
+        };
+        cameraicon.addEventListener('click', takePic);
 
     </script>
 

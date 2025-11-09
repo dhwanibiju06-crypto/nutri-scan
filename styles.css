@@ -8,9 +8,9 @@
     padding: 10px 20px; 
     font-size: 16px; 
     cursor: pointer; }
-  #videoElement {
-            width: 800px;
-            height: 550px;
+  #videoElement, #canvas {
+            width: 600px;
+            height: 450px;
             background-color: #eee;
             border: 1px solid black;
             margin-top: 20px;
