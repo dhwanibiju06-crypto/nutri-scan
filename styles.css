@@ -4,13 +4,13 @@
     text-align: center; 
     padding-top: 20px; }
 
-  #startCameraButton { 
+  #startCameraButton, #uploadButton { 
     padding: 10px 20px; 
     font-size: 16px; 
     cursor: pointer; }
   #videoElement, #canvas {
-            width: 600px;
-            height: 450px;
+            width: 400px;
+            height: 300px;
             background-color: #eee;
             border: 1px solid black;
             margin-top: 20px;
