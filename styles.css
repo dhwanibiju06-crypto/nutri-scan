@@ -4,7 +4,7 @@
     text-align: center; 
     padding-top: 20px; }
 
-  #startCameraButton, #uploadButton { 
+  #startCameraButton { 
     padding: 10px 20px; 
     font-size: 16px; 
     cursor: pointer; }
@@ -19,6 +19,17 @@
   #cameraicon {
     display: none;
     margin: 0 auto;
+  }
+
+  #imagePreview {
+    margin: 0 auto;
+  }
+
+  #scanButton {
+    margin: 0 auto;
+    padding: 10px 20px; 
+    font-size: 16px; 
+    cursor: pointer;
   }
 
 #statusMessage { color: blue; margin-top: 10px; }
