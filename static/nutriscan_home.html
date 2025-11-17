@@ -1,6 +1,6 @@
 <html>
     <head>
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="/static/styles.css">
         <title>NutriScan</title>
     </head>
     <body>
@@ -23,10 +23,13 @@
         <!-- pre shows text in a fixed-width font and preserves whitespace or exactly the response from the API -->
         <pre id="results"></pre>
 
+        <p id="statusMessage">hullo</p>
+
         <script>
         const fileInput = document.getElementById("fileInput");
         const image = document.getElementById("imagePreview");
         const scanButton = document.getElementById('scanButton');
+        const statusMessage = document.getElementById("statusMessage");
 
         const fileInputSelect = () => {
             const file = fileInput.files[0];
@@ -42,6 +45,34 @@
         };
 
         fileInput.addEventListener("change",fileInputSelect);
+
+        scanButton.addEventListener("click", async () => {
+            const results = document.getElementById("results");
+            results.textContent = "Scanning... Please wait.";
+
+            const formData = new FormData();
+            formData.append("image", fileInput.files[0]);
+
+            try {
+                statusMessage.textContent = "Inside try block.";
+                const response = await fetch("/upload", {
+                    method: "POST",
+                    body: formData
+                });
+                statusMessage.textContent = "Scan complete.";
+
+                if (!response.ok) {
+                    statusMessage.textContent = "Scan failed.";
+                    throw new Error(`Server error: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                results.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                statusMessage.textContent = "An error occurred during the scan." + error.message;
+                results.textContent = `Error: ${error.message}`;
+            }
+        });
         
         </script>
 

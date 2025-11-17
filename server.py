@@ -17,7 +17,7 @@ app = Flask(__name__)
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 # Load the vision model
-model = genai.GenerativeModel("gemimi-1.5-flash")
+model = genai.GenerativeModel("gemini-2.5-flash")
 
 # Define a route for the home page
 @app.route('/')
