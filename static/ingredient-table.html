@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ingredient Analysis</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+    <h1>Ingredient Analysis Report</h1>
+    <table id="ingredient-table">
+    </table>
+
+    <script>
+        // If running as a file (not through Flask), remove the Flask link
+        if (location.protocol === "file:") {
+            const flaskLink = document.querySelector('link[href*="static/styles.css"]');
+            if (flaskLink) flaskLink.remove();
+        }
+        
+        // Sample data for demonstration
+        const ingredients = [
+            { name: "Sugar", amount: "10g", dailyValue: "11%" },
+            { name: "Salt", amount: "2g", dailyValue: "8%" },
+            { name: "Fiber", amount: "5g", dailyValue: "20%" }
+        ];
+
+        // ToDo: Add functionality to fetch real data from backend instead of using sample data
+        // Get the data and then change the createHeader and createBody.
+
+        // Function to create and populate the ingredient table
+        const createIngredientTable = () => {
+            const table = document.getElementById('ingredient-table');
+
+            // Create table header
+            const header = table.createTHead();
+            const headerRow = header.insertRow(0);
+            const headers = ["Ingredient", "Amount", "% Daily Value"];
+            headers.forEach((text, index) => {
+                const cell = headerRow.insertCell(index);
+                cell.outerHTML = `<th>${text}</th>`;
+            });
+
+            // Create table body
+            const tbody = table.createTBody();
+            ingredients.forEach(ingredient => {
+                const row = tbody.insertRow();
+                row.insertCell(0).textContent = ingredient.name;
+                row.insertCell(1).textContent = ingredient.amount;
+                row.insertCell(2).textContent = ingredient.dailyValue;
+            });
+        };
+
+        // Call the function to create the table on page load
+        createIngredientTable();
+    </script>
+</body>
+</html>

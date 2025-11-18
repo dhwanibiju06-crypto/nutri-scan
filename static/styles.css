@@ -32,5 +32,18 @@
     cursor: pointer;
   }
 
+  #ingredient-table, th, td {
+     border: 1px solid #ccc; 
+     border-collapse: collapse; 
+     padding: 8px; 
+     margin: 0 auto;
+  }
+  .caution { 
+    background-color: #ffe0b2; 
+  } /* Light orange for caution */
+  .allergen { 
+    background-color: #f8bbd0; 
+  } /* Light pink for allergen */
+
 #statusMessage { color: blue; margin-top: 10px; }
 .error { color: red; }
