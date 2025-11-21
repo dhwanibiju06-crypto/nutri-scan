@@ -1,5 +1,5 @@
 # Import Flask for creating the server and handling requests
-from flask import Flask, request, jsonify
+from flask import Flask, json, request, jsonify
 
 # Import OpenAI client
 import google.generativeai as genai
@@ -35,17 +35,41 @@ def upload_image():
     #Gemimi expects image in bytes
     image_bytes = image.read()
 
+    prompt = """
+            TASK: Critically analyze the food label ingredients. Return a strictly formatted JSON array.
+
+            CONSTRAINTS:
+             1. No Decomposition: Treat compound ingredients (text in parentheses) as a single item. Do not list sub-ingredients like vitamins separately.
+             2. No Markdown: STRICTLY DO NOT use markdown code blocks (```json). The output must start directly with `[` and end with `]`.
+             3. Structure: For each ingredient, provide: `ingredient`, `purpose`, `concerns` (nuanced scientific debates), `classification` ('safe', 'caution', 'allergen'), and `category`.
+
+            OUTPUT: Return ONLY the raw JSON array.
+        """
     # Send image + prompt to Gemini model for analysis
     response = model.generate_content(
         [
-            "Provide nutritional information about the food item in the image.",
+            prompt,
             {"mime_type": image.mimetype, "data": image_bytes}
         ]
-       
     )
-    # Return the analysis results as JSON
-    return jsonify({"analysis": response.text})
 
+    # clean data before sending back to frontend
+    try: 
+        response_text = response.text.strip()
+
+        # Remove markdown code fences if the model ignored the prompt
+        if response_text.startswith("```") and response_text.endswith("```"):
+            response_text = response_text.replace("```json", "").replace("```", "").strip()
+
+        # Convert the string into a real Python list/object
+        structured_data = json.loads(response_text)
+        
+    except: 
+        response_text = "Error: Could not process the image. Please try again with a clearer image of the ingredients list."
+
+
+    # Return the analysis results as JSON
+    return jsonify({"structured_data": structured_data})
 # Run the Flask app
 if __name__ == '__main__':
     app.run(debug=True)

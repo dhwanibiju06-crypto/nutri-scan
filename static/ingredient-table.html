@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <title>Ingredient Analysis</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="/static/styles.css">
 
 </head>
 <body>
@@ -12,11 +11,6 @@
     </table>
 
     <script>
-        // If running as a file (not through Flask), remove the Flask link
-        if (location.protocol === "file:") {
-            const flaskLink = document.querySelector('link[href*="static/styles.css"]');
-            if (flaskLink) flaskLink.remove();
-        }
         
         // Sample data for demonstration
         const ingredients = [

@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <title>NutriScan Capture</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="/static/styles.css">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,12 +24,7 @@
 
     <!-- JavaScript code using 'const' -->
     <script>
-        // If running as a file (not through Flask), remove the Flask link
-        if (location.protocol === "file:") {
-            const flaskLink = document.querySelector('link[href*="static/styles.css"]');
-            if (flaskLink) flaskLink.remove();
-        }
-        
+
         // Use const to define constant references to DOM elements
         const startButton = document.querySelector('#startCameraButton');
         const video = document.querySelector('#videoElement');
