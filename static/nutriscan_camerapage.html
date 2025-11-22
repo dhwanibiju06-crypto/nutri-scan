@@ -22,6 +22,9 @@
     <!-- Takes pic -->
     <img id="cameraicon" src="/static/images/cameraicon.svg" alt="cameraLogo">
 
+    <button id="saveButton" style="display:none;">Save Photo</button>
+
+
     <!-- JavaScript code using 'const' -->
     <script>
 
@@ -32,6 +35,7 @@
         const cameraicon = document.querySelector('#cameraicon');
         const canvas = document.querySelector('#canvas');
         const context = canvas.getContext('2d');
+        const saveButton = document.querySelector('#saveButton');
 
         // Function defined using modern syntax
         const startCamera = () => {
@@ -75,8 +79,28 @@
             context.drawImage(video, 0, 0, canvas.width, canvas.height); // Capture frame when button is clicked
             //video.style.display = 'none';
             statusMessage.textContent = "Picture captured!";
+            saveButton.style.display = 'block';
         };
         cameraicon.addEventListener('click', takePic);
+
+        saveButton.addEventListener('click', () => {
+            // Canvas isn't an image file, it's a drawing surface. Unless you export it (.toDataURL), there's no image to save.
+            const imageURL = canvas.toDataURL('image/png');
+
+            // Create a temporary link element
+            const link = document.createElement('a');
+            link.href = imageURL;
+            link.download = "nutriscan_capture.png";  // default file name
+
+            // Trigger download
+            link.click();
+
+            // Store in localStorage
+            localStorage.setItem('capturedImage', imageURL);
+
+            // Optionally, redirect back to Home page
+            window.location.href = '/';
+});
 
     </script>
 

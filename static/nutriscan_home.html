@@ -11,7 +11,7 @@
 
         <h3>Would you like to upload an image or use your camera?</h3>
 
-        <a href="nutriscan_camerapage.html">
+        <a href="/camerapage">
             <button id = "camera">Use Camera</button>
         </a>
 
@@ -34,6 +34,7 @@
         const scanButton = document.getElementById('scanButton');
         const statusMessage = document.getElementById("statusMessage");
         const table = document.getElementById('ingredient-table');
+        const savedImage = localStorage.getItem('capturedImage');
 
         const fileInputSelect = () => {
 
@@ -51,13 +52,40 @@
             }
         };
 
+        // Check if there is a captured image in localStorage
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedImage = localStorage.getItem('capturedImage'); // get from localStorage
+            if (savedImage) {
+            image.src = savedImage;
+            image.style.display = 'block';
+            scanButton.style.display = 'block';
+            table.style.display = 'none';
+            statusMessage.textContent = "Image captured from camera. Ready to scan.";
+
+            // Clear it from localStorage after loading (optional)
+            localStorage.removeItem('capturedImage');
+        }
+    });
+
+
         fileInput.addEventListener("change",fileInputSelect);
 
         scanButton.addEventListener("click", async () => {
             statusMessage.textContent = "Scanning... Please wait.";
 
             const formData = new FormData();
+
+            if (fileInput.files[0]) {
+            // If user uploaded a file
             formData.append("image", fileInput.files[0]);
+            } else if (image.src) {
+            // If image came from camera (data URL)
+            const blob = await (await fetch(image.src)).blob();
+            formData.append("image", blob, "capture.png");
+            } else {
+            statusMessage.textContent = "No image to scan!";
+            return;
+            }
 
             try {
                 const response = await fetch("/upload", {

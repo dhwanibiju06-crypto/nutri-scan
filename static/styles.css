@@ -19,6 +19,7 @@
   #cameraicon {
     display: none;
     margin: 0 auto;
+    margin-top: 20px;
   }
 
   #imagePreview {
@@ -47,3 +48,13 @@
 
 #statusMessage { color: blue; margin-top: 10px; }
 .error { color: red; }
+
+
+#saveButton {
+    display: none;
+    margin: 0 auto;
+    margin-top: 15px;
+    padding: 10px 20px; 
+    font-size: 16px; 
+    cursor: pointer;
+}

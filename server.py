@@ -24,6 +24,10 @@ model = genai.GenerativeModel("gemini-2.5-flash")
 def home():
     return app.send_static_file('nutriscan_home.html')
 
+@app.route('/camerapage')
+def camera():
+    return app.send_static_file('nutriscan_camerapage.html')
+
 
 # Define a route to handle image uploads and process them with Gemini's API
 @app.route('/upload', methods=['POST'])
