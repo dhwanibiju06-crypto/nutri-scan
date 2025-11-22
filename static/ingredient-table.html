@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <title>Ingredient Analysis</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="styles.css">
 
 </head>
 <body>
@@ -14,9 +14,20 @@
         
         // Sample data for demonstration
         const ingredients = [
-            { name: "Sugar", amount: "10g", dailyValue: "11%" },
-            { name: "Salt", amount: "2g", dailyValue: "8%" },
-            { name: "Fiber", amount: "5g", dailyValue: "20%" }
+              {
+      "category": "Grain/Flour blend",
+      "classification": "allergen",
+      "concerns": "Contains wheat and malted barley, which are sources of gluten and common allergens.",
+      "ingredient": "Enriched unbleached flour (wheat flour, malted barley flour, ascorbic acid [dough conditioner], niacin, reduced iron, thiamin mononitrate, riboflavin, folic acid)",
+      "purpose": "Provides structure and bulk to the product; enriched with vitamins and minerals to restore nutrients lost during processing and fortify the food."
+    },
+    {
+      "category": "Sweetener",
+      "classification": "caution",
+      "concerns": "Excessive consumption of added sugars is linked to increased risk of weight gain, type 2 diabetes, heart disease, and dental caries. Contributes to overall caloric intake without significant nutritional value.",
+      "ingredient": "sugar",
+      "purpose": "Sweetener, flavor enhancer, aids in browning and provides texture."
+    }
         ];
 
         // ToDo: Add functionality to fetch real data from backend instead of using sample data
@@ -29,7 +40,7 @@
             // Create table header
             const header = table.createTHead();
             const headerRow = header.insertRow(0);
-            const headers = ["Ingredient", "Amount", "% Daily Value"];
+            const headers = ["Ingredient", "Category", "Classification", "Concerns",];
             headers.forEach((text, index) => {
                 const cell = headerRow.insertCell(index);
                 cell.outerHTML = `<th>${text}</th>`;
@@ -39,9 +50,11 @@
             const tbody = table.createTBody();
             ingredients.forEach(ingredient => {
                 const row = tbody.insertRow();
-                row.insertCell(0).textContent = ingredient.name;
-                row.insertCell(1).textContent = ingredient.amount;
-                row.insertCell(2).textContent = ingredient.dailyValue;
+                row.insertCell(0).textContent = ingredient.ingredient;
+                row.insertCell(1).textContent = ingredient.category;
+                row.insertCell(2).textContent = ingredient.classification;
+                row.insertCell(3).textContent = ingredient.concerns;
+
             });
         };
 

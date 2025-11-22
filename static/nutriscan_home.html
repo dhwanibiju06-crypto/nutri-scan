@@ -20,19 +20,23 @@
 
         <img id="imagePreview" width="400" style="display:none;">
         <br><br>
-        <button id="scanButton" style="display:none;">Start Scan</button>
-        <!-- pre shows text in a fixed-width font and preserves whitespace or exactly the response from the API -->
-        <pre id="results"></pre>
 
-        <p id="statusMessage">hullo</p>
+        <button id="scanButton" style="display:none;">Start Scan</button>
+
+        <p id="statusMessage"></p>
+
+        <table id="ingredient-table">
+        </table>
 
         <script>
         const fileInput = document.getElementById("fileInput");
         const image = document.getElementById("imagePreview");
         const scanButton = document.getElementById('scanButton');
         const statusMessage = document.getElementById("statusMessage");
+        const table = document.getElementById('ingredient-table');
 
         const fileInputSelect = () => {
+
             const file = fileInput.files[0];
             if (!file) return;
 
@@ -42,20 +46,20 @@
                 image.src = url;
                 image.style.display = "block";
                 scanButton.style.display = "block";
+                table.style.display = "none";
+                statusMessage.textContent = "Image selected. Ready to scan.";
             }
         };
 
         fileInput.addEventListener("change",fileInputSelect);
 
         scanButton.addEventListener("click", async () => {
-            const results = document.getElementById("results");
-            results.textContent = "Scanning... Please wait.";
+            statusMessage.textContent = "Scanning... Please wait.";
 
             const formData = new FormData();
             formData.append("image", fileInput.files[0]);
 
             try {
-                statusMessage.textContent = "Inside try block.";
                 const response = await fetch("/upload", {
                     method: "POST",
                     body: formData
@@ -68,13 +72,52 @@
                 }
 
                 const data = await response.json();
-                results.textContent = JSON.stringify(data, null, 2);
+                
+                statusMessage.textContent = "Scan complete. See ingredient table below.";
+                
+                createIngredientTable(data.structured_data);
             } catch (error) {
                 statusMessage.textContent = "An error occurred during the scan." + error.message;
-                results.textContent = `Error: ${error.message}`;
             }
         });
+
+        // Function to create and populate the ingredient table
+        const createIngredientTable = (ingredients) => {
+            table.style.display = "block";
+
+            if (!Array.isArray(ingredients) || ingredients.length === 0) {
+                statusMessage.textContent = "No ingredients found.";
+                table.style.display = "none";
+                return;
+            }
+
+             table.innerHTML = ""; // reset the table each scan
+
+            // Create table header                                                                                                        
+            const header = table.createTHead();
+            const headerRow = header.insertRow(0);
+            const headers = ["Ingredient", "Category", "Classification", "Concerns",];
+            headers.forEach((text) => {
+                const th = document.createElement("th");
+                th.textContent = text;
+                headerRow.appendChild(th);
+            });
+
+            // Create table body
+            const tbody = table.createTBody();
+            ingredients.forEach(ingredient => {
+                const row = tbody.insertRow();
+                row.insertCell(0).textContent = ingredient.ingredient;
+                row.insertCell(1).textContent = ingredient.category;
+                row.insertCell(2).textContent = ingredient.classification;
+                row.insertCell(3).textContent = ingredient.concerns;
+
+            });
+            //table.style.display = 'block';
+        };
+
         
+
         </script>
 
     </body>
