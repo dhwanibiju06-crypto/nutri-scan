@@ -29,6 +29,8 @@
         <table id="ingredient-table">
         </table>
 
+        <div id="mobileResults" style="display:none;"></div>
+
         <script>
         const fileInput = document.getElementById("fileInput");
         const image = document.getElementById("imagePreview");
@@ -36,6 +38,9 @@
         const statusMessage = document.getElementById("statusMessage");
         const table = document.getElementById('ingredient-table');
         const savedImage = localStorage.getItem('capturedImage');
+        const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        const cameraButton = document.getElementById("camera");
+
 
         const fileInputSelect = () => {
 
@@ -77,6 +82,8 @@
         scanButton.addEventListener("click", async () => {
             statusMessage.textContent = "Scanning... Please wait.";
             scanButton.disabled = true;
+            cameraButton.disabled = true;
+            fileInput.disabled = true;
 
             const formData = new FormData();
 
@@ -90,6 +97,8 @@
             } else {
             statusMessage.textContent = "No image to scan!";
             scanButton.disabled = false;
+            cameraButton.disabled = false;
+            fileInput.disabled = false;
             return;
             }
 
@@ -113,11 +122,46 @@
             } catch (error) {
                 statusMessage.textContent = "An error occurred during the scan." + error.message;
             }
-            scanButton.disabled = false;
+            scanButton.disabled = false;    
+            cameraButton.disabled = false;
+            fileInput.disabled = false;
         });
 
         // Function to create and populate the ingredient table
         const createIngredientTable = (ingredients) => {
+
+            // MOBILE MODE → Use card layout
+            if (isMobile) {
+                const resultsDiv = document.getElementById("mobileResults");
+                resultsDiv.innerHTML = "";
+                resultsDiv.style.display = "block";
+                table.style.display = "none";
+
+                ingredients.forEach(ingredient => {
+                    let reportItem = document.createElement('div');
+                    reportItem.classList.add('ingredient');
+                    reportItem.classList.add(ingredient.classification || 'unknown');
+
+                    let categoryHTML = "";
+                    if (ingredient.category && ingredient.category.toLowerCase() !== "general") {
+                        categoryHTML = `<em>Category:</em> ${ingredient.category}<br>`;
+                    }
+
+                    reportItem.innerHTML = `
+                        <strong>${ingredient.ingredient}</strong><br>
+                        ${categoryHTML}
+                        <em>Classification:</em> ${ingredient.classification}<br>
+                        <em>Concerns:</em> ${ingredient.concerns}
+                    `;
+
+                    resultsDiv.appendChild(reportItem);
+                });
+
+                return; // stop here for mobile
+            }
+
+            // DESKTOP MODE → Use table layout
+
             table.style.display = "block";
 
             if (!Array.isArray(ingredients) || ingredients.length === 0) {
