@@ -4,7 +4,7 @@
     text-align: center; 
     padding-top: 20px; }
 
-  h1, h2, h3 {
+  h1, h2, h3, h4, h5, h6 {
      color: blanchedalmond; }
 
   #startCameraButton { 
@@ -73,6 +73,6 @@
 }
 
 /* Color based on classification */
-.ingredient.safe { color: green; }
+.ingredient.safe { color: rgba(0, 128, 0, 0.425); }
 .ingredient.caution { color: rgb(90, 13, 141); }
-.ingredient.allergen { color: rgba(255, 0, 0, 0.356); }
+.ingredient.allergen { color: rgba(255, 0, 0, 0.301); }

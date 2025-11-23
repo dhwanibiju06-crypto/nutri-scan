@@ -6,11 +6,13 @@
         <title>NutriScan</title>
     </head>
     <body>
-        <h1>Welcome to NutriScan</h1>
+        <h1>NutriScan</h1>
 
-        <h2>"Always making YOUR life easier"</h2>
+        <h3>"Always making YOUR life easier"</h3>
 
-        <h3>Would you like to upload an image or use your camera?</h3>
+        <h5>Take a picture of the ingredients label in any food, and we'll simplify it for you.</h5>
+
+        <h6>Know what's in your food with NutriScan!</h6>
 
         <a href="/camerapage">
             <button id = "camera">Use Camera</button>
@@ -127,7 +129,7 @@
             fileInput.disabled = false;
         });
 
-        // Function to create and populate the ingredient table
+        // Function to create and populate the ingredient table ----------------------------------------------------------------------------------------------------------------------------
         const createIngredientTable = (ingredients) => {
 
             // MOBILE MODE → Use card layout
@@ -160,7 +162,7 @@
                 return; // stop here for mobile
             }
 
-            // DESKTOP MODE → Use table layout
+            // DESKTOP MODE → Use table layout --------------------------------------------------------------------------------------------------------------------------------------------
 
             table.style.display = "block";
 
