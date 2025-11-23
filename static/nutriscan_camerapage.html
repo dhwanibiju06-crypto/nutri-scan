@@ -22,7 +22,7 @@
     <!-- Takes pic -->
     <img id="cameraicon" src="/static/images/cameraicon.svg" alt="cameraLogo">
 
-    <button id="saveButton" style="display:none;">Save Photo</button>
+    <button id="saveButton" style="display:none;">Use Photo</button>
 
 
     <!-- JavaScript code using 'const' -->
@@ -40,7 +40,6 @@
         // Function defined using modern syntax
         const startCamera = () => {
             statusMessage.textContent = "Requesting camera access... Look for the pop-up.";
-            startButton.disabled = true; 
 
             // This triggers the browser permission dialog
             navigator.mediaDevices.getUserMedia({ video: true, audio: false })

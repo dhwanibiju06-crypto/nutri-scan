@@ -1,6 +1,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="/static/styles.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>NutriScan</title>
     </head>
@@ -40,6 +41,7 @@
 
             const file = fileInput.files[0];
             if (!file) return;
+            fileInput.style.color = "green"; 
 
             const url = URL.createObjectURL(file);
 
@@ -47,6 +49,7 @@
                 image.src = url;
                 image.style.display = "block";
                 scanButton.style.display = "block";
+                scanButton.disabled = false;
                 table.style.display = "none";
                 statusMessage.textContent = "Image selected. Ready to scan.";
             }
@@ -59,6 +62,7 @@
             image.src = savedImage;
             image.style.display = 'block';
             scanButton.style.display = 'block';
+            scanButton.disabled = false;
             table.style.display = 'none';
             statusMessage.textContent = "Image captured from camera. Ready to scan.";
 
@@ -72,6 +76,7 @@
 
         scanButton.addEventListener("click", async () => {
             statusMessage.textContent = "Scanning... Please wait.";
+            scanButton.disabled = true;
 
             const formData = new FormData();
 
@@ -84,6 +89,7 @@
             formData.append("image", blob, "capture.png");
             } else {
             statusMessage.textContent = "No image to scan!";
+            scanButton.disabled = false;
             return;
             }
 
@@ -92,7 +98,7 @@
                     method: "POST",
                     body: formData
                 });
-                statusMessage.textContent = "Scan complete.";
+                statusMessage.textContent = "Scan complete.";              
 
                 if (!response.ok) {
                     statusMessage.textContent = "Scan failed.";
@@ -101,12 +107,13 @@
 
                 const data = await response.json();
                 
-                statusMessage.textContent = "Scan complete. See ingredient table below.";
+                statusMessage.textContent = "Scan complete. Ingredients are sorted by concern level.";
                 
                 createIngredientTable(data.structured_data);
             } catch (error) {
                 statusMessage.textContent = "An error occurred during the scan." + error.message;
             }
+            scanButton.disabled = false;
         });
 
         // Function to create and populate the ingredient table

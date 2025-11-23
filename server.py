@@ -46,6 +46,7 @@ def upload_image():
              1. No Decomposition: Treat compound ingredients (text in parentheses) as a single item. Do not list sub-ingredients like vitamins separately.
              2. No Markdown: STRICTLY DO NOT use markdown code blocks (```json). The output must start directly with `[` and end with `]`.
              3. Structure: For each ingredient, provide: `ingredient`, `concerns` (nuanced scientific debates), `classification` ('safe', 'caution', 'allergen'), and `category`.
+             4. Ordering: Order it from most to least concerning based on current scientific consensus.
 
             OUTPUT: Return ONLY the raw JSON array.
         """

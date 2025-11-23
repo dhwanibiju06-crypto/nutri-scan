@@ -1,8 +1,11 @@
   body { 
-    background-color: rgb(128, 165, 142);
+    background-color: rgb(22, 22, 22);
     font-family: sans-serif; 
     text-align: center; 
     padding-top: 20px; }
+
+  h1, h2, h3 {
+     color: blanchedalmond; }
 
   #startCameraButton { 
     padding: 10px 20px; 
@@ -38,6 +41,7 @@
      border-collapse: collapse; 
      padding: 8px; 
      margin: 0 auto;
+     color: blanchedalmond;
   }
   .caution { 
     background-color: #ffe0b2; 
@@ -46,7 +50,7 @@
     background-color: #f8bbd0; 
   } /* Light pink for allergen */
 
-#statusMessage { color: blue; margin-top: 10px; }
+#statusMessage { color: rgb(93, 93, 252); margin-top: 10px; }
 .error { color: red; }
 
 
