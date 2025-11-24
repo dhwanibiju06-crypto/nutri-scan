@@ -75,4 +75,4 @@
 /* Color based on classification */
 .ingredient.safe { color: rgba(0, 128, 0, 0.425); }
 .ingredient.caution { color: rgb(90, 13, 141); }
-.ingredient.allergen { color: rgba(255, 0, 0, 0.301); }
+.ingredient.allergen { color: rgb(255, 0, 0); }
